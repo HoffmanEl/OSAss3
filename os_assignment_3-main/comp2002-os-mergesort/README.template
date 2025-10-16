@@ -1,0 +1,75 @@
+Project Number/Title
+
+Authors: Daniel Ross, [Group Member 2], [Group Member 3]
+
+Group name: ThreadMasters
+
+Overview
+
+This project implements a parallel version of the merge sort algorithm using the pthread library. The program sorts a randomly-generated array and allows the user to specify how many recursion levels should spawn new threads. At deeper levels beyond a user-specified cutoff, the algorithm defaults to a single-threaded merge sort. The parallel implementation demonstrates how multithreading can improve performance for large datasets.
+
+Manifest
+
+mergesort.c – Implements the merge sort algorithm (single-threaded and parallel versions) and the merge function.
+
+mergesort.h – Header file defining global arrays, the cutoff variable, and the struct argument.
+
+test-mergesort.c – Provided test program that generates random arrays and measures sorting time.
+
+Makefile – Compiles the program and generates the executable.
+
+README.md – This file, describing the project, usage, and testing.
+
+Building the project
+
+To build the project, ensure you are in the project directory and run:
+
+make
+
+
+This will compile mergesort.c and test-mergesort.c and produce the executable test-mergesort. To clean up compiled files, run:
+
+make clean
+
+Features and usage
+
+Supports sorting arrays of arbitrary size specified via the command line.
+
+Allows the user to control the maximum parallelism via a cutoff level for thread creation.
+
+Measures and prints the time taken for sorting.
+
+Usage example:
+
+./test-mergesort <array_size> <cutoff_level> <seed>
+
+
+array_size – number of elements to sort.
+
+cutoff_level – maximum recursion level for spawning threads (0 = single-threaded).
+
+seed – random seed for generating the array.
+
+Example:
+
+./test-mergesort 1000000 3 1234
+
+Testing
+
+Testing was performed using both small and large arrays. We verified correctness by comparing outputs with the single-threaded merge sort implementation. We also measured execution time across various cutoff levels to ensure parallelism resulted in performance gains. For large arrays (e.g., 100,000,000 elements), we observed the expected speedup, with performance gains leveling off at around cutoff level 5-6.
+
+Known Bugs
+
+No known functional bugs. Memory usage grows linearly with array size, so extremely large arrays may stress system memory.
+
+Reflection and Self Assessment
+
+Developing this project required understanding pthreads and how to manage arguments passed to threads. Initially, casting between void * and struct argument * was confusing. Careful attention to memory allocation and freeing was critical to prevent leaks. Managing recursion with threads required ensuring all threads joined correctly. Once the structure of parallel recursion “clicked,” implementing and testing the program was straightforward. Overall, development and testing went smoothly, with the main challenges being memory management and correct synchronization of threads.
+
+Sources Used
+
+OSTEP Operating Systems, Chapter 27, “Interlude: Thread API” (Figures 27.1 & 27.2).
+
+Stack Overflow for syntax clarification on pthread_create and pthread_join.
+
+Personal notes and standard merge sort references from previous coursework.
